@@ -3,7 +3,8 @@ package com.module2.layersMVC.Controller;
 
 import com.module2.layersMVC.dto.EmployeeDto;
 import com.module2.layersMVC.entity.EmployeeEntity;
-import com.module2.layersMVC.repository.EmployeeRepo;
+//import com.module2.layersMVC.repository.EmployeeRepo;
+import com.module2.layersMVC.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -18,24 +19,24 @@ public class EmployeeController {
 //        return "Secret message: asdfal@#DASDJNJ";
 //    }
 
-    private final EmployeeRepo employeeRepo;
+  public final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepo employeeRepo) {
-        this.employeeRepo = employeeRepo;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
 
     @GetMapping(path= "/{employeeId}")
-    public EmployeeEntity getEmployeeById(@PathVariable(name ="employeeId" ) Long id){
-        return employeeRepo.findById(id).orElse(null);
+    public EmployeeDto getEmployeeById(@PathVariable(name ="employeeId" ) Long id){
+        return employeeService.getEmployeeById(id);
         // return new EmployeeDto(id,"Monu","monu@gmail.com",20,LocalDate.of(2023,8,21 ),true);
     }
 
     @GetMapping
  //   public String
-   public List<EmployeeEntity> getAllEmployeed(@RequestParam (required = false)Integer age,
+   public List<EmployeeDto> getAllEmployeed(@RequestParam (required = false)Integer age,
                                                @RequestParam (required = false)String name){
-        return employeeRepo.findAll();
+        return employeeService.getAlltheEmploye();
     }
 
     @PostMapping
@@ -46,9 +47,10 @@ public class EmployeeController {
 //
 //    }
 
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee){
-        return employeeRepo.save(inputEmployee);
+    public EmployeeDto createNewEmployee(@RequestBody EmployeeDto inputEmployee){
+        return employeeService.createNewEmployee(inputEmployee);
     }
+
     @PutMapping
     public String updateEmployeeId(){
 

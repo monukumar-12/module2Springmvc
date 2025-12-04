@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LayersMvcApplications {
+public class LayersMvcApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootWebTutorialApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(LayersMvcApplication.class, args);
+	}
 
 }
