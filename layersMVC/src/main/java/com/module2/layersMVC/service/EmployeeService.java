@@ -3,6 +3,7 @@ package com.module2.layersMVC.service;
 
 import com.module2.layersMVC.dto.EmployeeDto;
 import com.module2.layersMVC.entity.EmployeeEntity;
+import com.module2.layersMVC.exceptions.ResourceNotFoundException;
 import com.module2.layersMVC.repository.EmployeeRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -49,16 +50,22 @@ public class EmployeeService {
     }
 
     public EmployeeDto updateEmployeeById(Long employeeId, EmployeeDto employeeDto) {
+        boolean exists = isExistByEmployeeTd(employeeId);
+        if(!exists)throw new ResourceNotFoundException(" employee not found: "+ employeeId);
        EmployeeEntity employeeEntity = modelMapper.map(employeeDto,EmployeeEntity.class);
        employeeEntity.setId(employeeId);
        EmployeeEntity savedEmployeeEntity = employeeRepo.save(employeeEntity);
        return modelMapper.map(savedEmployeeEntity,EmployeeDto.class);
     }
 
+
+    public boolean isExistsByEmployeeId(Long employeeId){
+        return employeeRepo.existsById(employeeId);
+    }
     public boolean deleteEmployeeById(Long employeeId) {
 
            boolean exists = isExistByEmployeeTd(employeeId);
-           if(!exists) return false;
+           if(!exists) throw new ResourceNotFoundException(" employee not found: "+ employeeId);
          employeeRepo.deleteById(employeeId);
 
         return true;
